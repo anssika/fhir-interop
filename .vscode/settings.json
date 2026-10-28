@@ -1,0 +1,18 @@
+{
+	"intersystems.servers": {
+		"local": {
+			"webServer": {
+				"scheme": "http",
+				"host": "localhost",
+				"port": 58050,
+				"pathPrefix": ""
+			},
+			"username": "superuser"
+		}
+	},
+	"objectscript.conn": {
+		"server": "local",
+		"ns": "FHIRSERVER",
+		"active": true
+	}
+}

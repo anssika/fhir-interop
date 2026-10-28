@@ -1,0 +1,5 @@
+host = "localhost"
+port = 58050
+namespace = "FHIRINTEROP"
+username = "superuser"
+password = "sys"

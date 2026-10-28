@@ -1,0 +1,13 @@
+Zn "%SYS"
+; Set user accounts to not have their password change on next login
+Do ##class(Security.Users).UnExpireUserPasswords("*")
+
+Zn "FHIRSERVER"
+Set status = ##class(Ens.Director).StartProduction("FHIRSERVERPKG.FoundationProduction")
+Throw:('status) ##class(%Exception.StatusException).CreateFromStatus(status)
+
+Zn "FHIRINTEROP"
+Set status = ##class(Ens.Config.Credentials).SetCredential("FHIR_Server", "superuser", "sys", 1)
+Throw:('status) ##class(%Exception.StatusException).CreateFromStatus(status)
+Set status = ##class(Ens.Director).StartProduction("FHIRINTEROPPKG.FoundationProduction")
+Throw:('status) ##class(%Exception.StatusException).CreateFromStatus(status)

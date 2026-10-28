@@ -1,0 +1,10 @@
+[config]
+; Runtime CPF configuration for HTTP
+; Customer-specific settings can be applied here
+
+[Startup]
+; Namespace to start in
+Namespace=TEST
+
+[Actions]
+; Any runtime configuration actions

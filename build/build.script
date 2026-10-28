@@ -1,0 +1,16 @@
+
+Zn "FHIRSERVER"
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/FHIRInterop", "ck", "*.cls", .errors, .imported)
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/FHIRSERVERPKG", "ck", "*.cls", .errors, .imported)
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/Setup", "ck", "*.cls", .errors, .imported)
+Do ##class(Setup.FHIRServer).AddServer("FHIRSERVER", "/fhir/r4", "FHIR_API")
+
+Zn "FHIRINTEROP"
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/FHIRInterop", "ck", "*.cls", .errors, .imported)
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/FHIRINTEROPPKG", "ck", "*.cls", .errors, .imported)
+
+Zn "TEST"
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/FHIRInterop", "ck", "*.cls", .errors, .imported)
+Do ##class(%SYSTEM.OBJ).Import("/opt/fhir-interop/src/Tests", "ck", "*.cls", .errors, .imported)
+
+Halt

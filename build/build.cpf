@@ -1,0 +1,20 @@
+[Startup]
+; password is set equal to "sys"
+PasswordHash=2fbe5c6d0259c7bac3638866a43efd89e807bf7b55b5e4f1ce7a166b928688dcaabcd471a86af9de163903b681c682f1e591d24dfc731cc731b819d2db749f74,127378f990f39260c2831202f505d433bf7d397581ee1252a676fbe86f1c83be5843e9395adff270b127c426e65ee84daa375087a8d92e3539ce7b92d38eac38,10000,SHA512
+
+[Actions]
+;FHIRINTEROP
+CreateResource:Name=%DB_FHIRINTEROP,Description="The production providing the FHIR interop components available for demonstration and testing"
+CreateDatabase:Name=FHIRINTEROP,Directory=/usr/irissys/mgr/FHIRINTEROP
+CreateNamespace:Name=FHIRINTEROP,Globals=FHIRINTEROP,Routines=FHIRINTEROP,Interop=1
+
+;FHIRSERVER
+CreateResource:Name=%DB_FHIRSERVER,Description="FHIR server needed for demonstration and testing"
+CreateDatabase:Name=FHIRSERVER,Directory=/usr/irissys/mgr/FHIRSERVER
+CreateNamespace:Name=FHIRSERVER,Globals=FHIRSERVER,Routines=FHIRSERVER,Interop=1
+
+; TEST
+CreateResource:Name=%DB_TEST,Description="Clients to demonstrate and the FHIR interop components"
+CreateDatabase:Name=TEST,Directory=/usr/irissys/mgr/TEST
+CreateNamespace:Name=TEST,Globals=TEST,Routines=TEST,Interop=1
+

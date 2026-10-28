@@ -1,0 +1,17 @@
+services:
+  iris:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fhir-interop:latest
+    container_name: fhir-interop
+    ports:
+      - "58050:52773"   # Private Web Server
+      - "58051-58059:58051-58059"
+    volumes:
+    - type: bind
+      source: .
+      target: /opt/fhir-interop
+    environment:
+      - IRIS_NAMESPACE=TEST
+    command: ["-a","/opt/fhir-interop/startup/startup.sh"]

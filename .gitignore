@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# IRIS runtime logs
+*.log
+iris-main.log
