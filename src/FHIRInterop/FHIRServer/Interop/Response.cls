@@ -1,3 +1,5 @@
+Include HS.FHIRServer
+
 /// <p>A journaled alternative to class <class>HS.FHIRServer.Interop.Response</class></p>
 /// 
 /// <p>To use this class, you need to extend classes <class>HS.FHIRServer.Interop.Service</class> 
@@ -7,6 +9,9 @@
 /// 
 Class FHIRInterop.FHIRServer.Interop.Response Extends HS.Util.EnsResponse [ StorageStrategy = "" ]
 {
+
+/// Pretty prints the payload if it is JSON. Set to 0 (false) to disable pretty printing.
+Parameter PRETTYPRINTJSON = 1;
 
 Property Response As HS.FHIRServer.API.Data.Response;
 
@@ -32,7 +37,15 @@ ClassMethod FromHSResponse(response As HS.FHIRServer.Interop.Response) As FHIRIn
 			// NULLOREF), meaning this guard rarely if ever fires.
 			$$$ThrowStatus($$$ERROR($$$GeneralError, "Could not open response QuickStream with id '" _ response.QuickStreamId _ "'"))
 		}
-		Do interopResponse.Payload.CopyFrom(tQuickStream)
+		If (..#PRETTYPRINTJSON && (response.Response.ResponseFormatCode = $$$FHIRContentCodeJSON) && (tQuickStream.Size > 0)) {
+			#Dim tPrettyStream As %Stream.GlobalCharacter = ##class(%Stream.GlobalCharacter).%New()
+			$$$ThrowOnError(##class(%JSON.Formatter).%New().FormatToStream(tQuickStream, .tPrettyStream))
+			Set interopResponse.Payload = tPrettyStream
+		}
+		Else {
+			// Return the stream as-is, without pretty printing.
+			Do interopResponse.Payload.CopyFrom(tQuickStream)
+		}
 	}
 	Set interopResponse.CharSet = response.CharSet
 	Set interopResponse.ContentType = response.ContentType

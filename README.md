@@ -29,6 +29,7 @@ classes that create and consume these messages — use each in place of its stoc
 - `FHIRInterop.FHIRServer.Interop.Service` instead of `HS.FHIRServer.Interop.Service`
 - `FHIRInterop.FHIRServer.Interop.Operation` instead of `HS.FHIRServer.Interop.Operation`
 - `FHIRInterop.FHIRServer.Interop.HTTPOperation` instead of `HS.FHIRServer.Interop.HTTPOperation`
+- `FHIRInterop.FHIRServer.RestClient.Interop` instead of `HS.FHIRServer.RestClient.Interop`
 
 ## How It Works
 
@@ -58,10 +59,33 @@ place of its stock counterpart:
 | `FHIRInterop.FHIRServer.Interop.Service` | `HS.FHIRServer.Interop.Service` |
 | `FHIRInterop.FHIRServer.Interop.Operation` | `HS.FHIRServer.Interop.Operation` |
 | `FHIRInterop.FHIRServer.Interop.HTTPOperation` | `HS.FHIRServer.Interop.HTTPOperation` |
+| `FHIRInterop.FHIRServer.RestClient.Interop` | `HS.FHIRServer.RestClient.Interop` |
 
 Point your production's FHIR service and operation items at the `FHIRInterop.*` classes. The
 `src/FHIRInterop/Ex/`, `src/Setup/`, and `src/*PKG/` code is demonstration scaffolding — you don't
 need it.
+
+### About Pretty Printing JSON-payload
+
+When the payload is JSON, `FHIRInterop.FHIRServer.Interop.Request` and
+`FHIRInterop.FHIRServer.Interop.Response` pretty-print it (via `%JSON.Formatter`) as it is copied
+into the inline `Payload` stream, so the indented JSON is what you see in the Message Viewer. This
+is **enabled by default** — both classes carry `Parameter PRETTYPRINTJSON = 1`, and the formatting
+only applies when the request/response format code is JSON and the payload is non-empty.
+
+To **disable** pretty printing and store the payload byte-for-byte as received, set the
+parameter to `0`. Either edit the parameter in the two classes directly, or subclass them.
+
+### About Using Service Registry
+
+When `FHIRInterop.FHIRServer.RestClient.Interop` builds a request, it clears the `ServiceName`
+entry from `Request.AdditionalInfo` (`hsRequest.Request.AdditionalInfo.RemoveAt("ServiceName")`).
+
+The service name is a *required* argument of the parent's `CreateInstance` method, so it must be
+supplied when the client instance is created — but once the request reaches the interop operation,
+a non-empty `ServiceName` would make the operation resolve its target through the **Service
+Registry** instead of using the HTTP adapter settings configured on the operation item. Clearing
+it ensures the operation uses its own adapter configuration to reach the FHIR endpoint.
 
 ## Try It Out
 
@@ -143,10 +167,6 @@ them afterward. A passing run ends with `All PASSED`; detailed results are also 
 `%UnitTest` portal URL printed at the end of the run.
 
 ## ToDo
-
-### pServiceName parameter of method CreateInstance of HS.FHIRServer.RestClient.Interop
-
-The service registry name will not be set by FHIRInterop.FHIRServer.RestClient.Interop - it will be cleared. Add documentation about this - both in the class and in this document.
 
 ### All quickstreams cleared?
 
