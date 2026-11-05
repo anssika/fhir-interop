@@ -144,4 +144,10 @@ them afterward. A passing run ends with `All PASSED`; detailed results are also 
 
 ## ToDo
 
+### pServiceName parameter of method CreateInstance of HS.FHIRServer.RestClient.Interop
+
+The service registry name will not be set by FHIRInterop.FHIRServer.RestClient.Interop - it will be cleared. Add documentation about this - both in the class and in this document.
+
+### All quickstreams cleared?
+
 Do some tests to ascertain that no quickstreams are left behind.
